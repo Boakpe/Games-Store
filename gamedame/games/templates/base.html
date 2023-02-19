@@ -8,9 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock title %}</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <script src="https://use.fontawesome.com/c93fac9d9a.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href=" {% static 'css/style.css' %} ">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">    <link rel="stylesheet" href=" {% static 'css/style.css' %} ">
 </head>
 <body>
     <div class="container-fluid">
@@ -40,17 +39,17 @@
                   <li class="nav-item">
                     <a class="nav-link" href="/cart">Carrinho</a>
                   </li>
+                  {% if user.is_staff %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="/admin">Área do Administrador</a>
+                  </li>
+                  {% endif %} 
                   <li class="nav-item">
                     <a class="nav-link" href="/accounts/logout">Sair</a>
                   </li>
                   {% else %}
                   <li class="nav-item">
                     <a class="nav-link" href="/accounts/login">Entrar</a>
-                  </li>
-                  {% endif %}
-                  {% if user.is_staff %}
-                  <li class="nav-item">
-                    <a class="nav-link" href="/admin">Área do Administrador</a>
                   </li>
                   {% endif %}
                 </ul>
@@ -65,10 +64,11 @@
         
         {% block content %}
         {% endblock  %}
-        <footer class="d-flex align-items-center justify-content-center border-top" style = "height: 100px">
-            <div class="text-center p-3">
-              <p>Desenvolvido em 2023</p>
-            </div>
+          <footer class="py-3">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+              <li class="nav-item"><a href="{% url 'all_games' %}" class="nav-link px-2 text-muted">Todos os jogos</a></li>
+            </ul>
+            <p class="text-center text-muted"> © 2023, Game Dame</p>
           </footer>
     </div>
 

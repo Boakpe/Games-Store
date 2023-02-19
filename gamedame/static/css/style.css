@@ -89,3 +89,20 @@
 .category-title {
     padding-left: calc(var(--bs-gutter-x) * .5);
 }
+
+/* Paginação do Allgames */
+
+.pagination {
+    margin-bottom: 20px;
+}
+
+.step-links {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.step-links .current{
+    margin-left: 5px;
+    margin-right: 5px;
+}

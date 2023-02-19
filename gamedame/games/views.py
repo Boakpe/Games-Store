@@ -3,6 +3,8 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.db.models import Q, Avg
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest
+from django.core.paginator import Paginator
+
 
 
 from .models import CartItem, Game, Purchase, PurchaseItem, Rating
@@ -24,6 +26,19 @@ def gameList(request):
     }
     return render(request, 'games/list.html', context)
 
+def allGamesView(request):
+    all_games_list = Game.objects.all()
+    
+    paginator = Paginator(all_games_list, 4)
+    page = request.GET.get('page')
+    all_games = paginator.get_page(page)
+    
+    context = {
+        'all_games' : all_games,
+        'all_games_list' : all_games_list,
+    }
+    return render(request, 'games/all-games.html', context)
+
 
 def searchGamesView(request):
     search = request.GET.get('search')
@@ -33,7 +48,7 @@ def searchGamesView(request):
         searched_games = Game.objects.filter(Q(title__icontains=search))
 
     context = {
-        {'searched_games': searched_games}
+        'searched_games': searched_games
     }
 
     return render(request, 'games/search-games.html', context)

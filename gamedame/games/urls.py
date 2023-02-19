@@ -13,6 +13,7 @@ urlpatterns = [
     path('cart/<int:game_id>/add', views.addcartItemView, name='add_to_cart'),
     path('purchase/', views.purchaseView, name='purchase'),
     path('refund/<int:game_id>', views.refundGameView, name='refund-game'),
+    path('allgames/', views.allGamesView, name = "all_games")
 ]
 
 # urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

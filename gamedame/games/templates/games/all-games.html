@@ -1,11 +1,11 @@
 {% extends 'base.html' %} {% block title %}Game Dame{% endblock %}
 {% block content %}
 
-{% if searched_games%}
-<div class="container p-3" id="pesquisados">
-    <h1 class = "pb-3 category-title">Pesquisado: "{{request.GET.search}}"</h1>
+{% if all_games_list%}
+<div class="container p-3" id="todos-jogos">
+    <h1 class = "pb-3 category-title">Todos os jogos</h1>
     <div class="row">
-        {% for game in searched_games %}
+        {% for game in all_games %}
         <div class="col-md-3 mb-3">
             <a href="/game/{{game.id}}" class="text-decoration-none">
                 <div class="card game-card">
@@ -28,6 +28,19 @@
         </div>
         {% endfor %}
     </div>
+</div>
+<div class="pagination">
+    <span class="step-links">
+        {% if all_games.has_previous %}
+            <a href="?page={{all_games.previous_page_number}}"><i class="bi bi-chevron-left"></i></a>
+        {% endif %}
+        <span class="curent">
+            {{all_games.number}} de {{all_games.num_pages}}
+        </span>
+        {% if all_games.has_next %}
+            <a href="?page={{all_games.next_page_number}}"><i class="bi bi-chevron-right"></i></a>
+        {% endif %}
+    </span>
 </div>
 {% else %}
 <div class="container p-3" id="pesquisados">

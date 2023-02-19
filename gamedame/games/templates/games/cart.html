@@ -4,14 +4,14 @@
     <h1 class="pb-3 category-title">Carrinho de compras</h1>
   {% if cart_items %}
   <div class="row">
-    {% for cart_item in cart_items %}
+    {% for game in cart_items %}
     <div class="col-md-3 mb-3">
-      <a href="/game/{{cart_item.game.id}}" class="text-decoration-none">
+      <a href="/game/{{game.game.id}}" class="text-decoration-none">
         <div class="card game-card">
-          <img src="{{cart_item.game.cover_image.url}}" class="card-img-top" alt="Imagem 1" />
+          <img src="{{game.game.cover_image.url}}" class="card-img-top" alt="Imagem 1" />
           <div class="card-body">
-            <h5 class="card-title text-truncate">{{cart_item.game.title}}</h5>
-            <p class="card-text">R$ {{cart_item.game.price_with_discount}}</p>
+            <h5 class="card-title text-truncate">{{game.game.title}}</h5>
+            <p class="card-text">R$ {{game.game.price_with_discount}}</p>
             <a class="btn btn-outline-danger btn-sm mt-2" href="{% url 'remove_cart_item' cart_item.pk %}">Remover</a>
           </div>
         </div>
