@@ -3,8 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate
-from accounts.forms import CustomUserCreationForm
+from django.contrib.auth import authenticate, login, logout
+from accounts.forms import CustomUserCreationForm, LoginForm
 
 from games.models import PurchaseItem
 
@@ -13,22 +13,46 @@ from games.models import PurchaseItem
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'registration/register.html' """
-    
+
+
 @login_required
 def perfilView(request):
-    games = PurchaseItem.objects.filter(purchase__user=request.user).exclude(refunded=True)
+    games = PurchaseItem.objects.filter(
+        purchase__user=request.user).exclude(refunded=True)
     return render(request, 'accounts/account.html', {'user': request.user, 'games': games})
+
+
+def loginUserView(request):
+    if request.method == "POST":
+        form = LoginForm(request, data=request.POST)
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('game-list')
+        else:
+            return redirect('login')
+    else:
+        form = LoginForm()
+        return render(request, 'accounts/login.html', {'form': form})
+
 
 def registerUserView(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_date['username']
-            password = form.cleaned_date['password1']
-            user = authenticate(username = username, password = password)
-            #login(request, user)
-            return redirect('')
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('accounts/login')
     else:
         form = CustomUserCreationForm()
-    return render(request, 'registration/register.html', {'form': form})
+    return render(request, 'accounts/register.html', {'form': form})
+
+
+def logoutUserView(request):
+    logout(request)
+    return redirect('game-list')

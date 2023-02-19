@@ -20,11 +20,6 @@
       </div>
 
       <p class="mb-4">{{ game.description }}</p>
-
-
-      {% comment %} <a href="{% url 'add_to_cart' game.id %}" id="cart-button" class="btn btn-primary btn-block"
-        value={{game.id}}>Adicionar ao carrinho</a>
-      {% endcomment %}
       {% if has_purchased %}
       <button type="button" class="btn btn-secondary btn-block mb-3" disabled>Você já comprou este jogo</button>
       <a href=" {% url 'refund-game' game.id %} " id="refund-button" class="mb-3 btn btn-danger btn-block">Pedir
@@ -39,7 +34,11 @@
 
       {% endif %}
       <div class="mb-3">
-        <h5>Nota: {{ rating_sum }}/100</h5>
+        <h5 class = "mb-0">Nota: {{ rating_sum }}/100 </h5>
+        <small>(Nº de avaliações: {{num_ratings}})</small>
+        {% if user_rating %}
+        <h6>Sua nota: {{user_rating}}</h6>
+        {% endif %}
       </div>
       {% if has_purchased %}
       <div class="form-outline mb-3 ">

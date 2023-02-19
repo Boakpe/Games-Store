@@ -1,35 +1,7 @@
-{% extends 'base.html' %} {% block title %}Game Dame{% endblock %}
+{% extends 'base.html' %} 
+{% block title %}Game Dame{% endblock %}
 {% block content %}
 
-{% if searched_games%}
-<div class="container p-3" id="pesquisados">
-    <h1 class = "pb-3 category-title">Pesquisado: "{{request.GET.search}}"</h1>
-    <div class="row">
-        {% for searched_game in searched_games %}
-        <div class="col-md-3 mb-3">
-            <a href="/game/{{searched_game.id}}" class="text-decoration-none">
-                <div class="card game-card">
-                    <img src="{{searched_game.cover_image.url}}" class="card-img-top" alt="Imagem 1" />
-                    <div class="card-body">
-                        <h5 class="card-title text-truncate">{{searched_game.title}}</h5>
-                        <p class="card-text">R$ {{searched_game.price_with_discount}}</p>
-                        {% if searched_game.promotion > 0 %}
-                        <p class="card-text">
-                            <small class="text-muted">{{searched_game.promotion}}% de desconto!</small>
-                        </p>
-                        {% else %}
-                        <p class="card-text">
-                            <small class="text-muted"></small>
-                        </p>
-                        {% endif %}
-                    </div>
-                </div>
-            </a>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-{% else %}
 <div class="d-flex justify-content-center bg-black">
     <div id="carouselExampleIndicators" class="carousel slide carousel-size rounded">
         <div class="carousel-indicators">
@@ -41,20 +13,20 @@
                 aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
-            <a href="/game/{{best_selling_games.0.id}}" class="text-decoration-none">
+            <a href="/game/{{random_games.0.id}}" class="text-decoration-none">
                 <div class="carousel-item active">
 
-                    <img src="{{best_selling_games.0.cover_image.url}}" class="d-block w-100" alt="...">
+                    <img src="{{random_games.0.cover_image.url}}" class="d-block w-100" alt="...">
                 </div>
             </a>
-            <a href="/game/{{best_selling_games.1.id}}" class="text-decoration-none">
+            <a href="/game/{{random_games.1.id}}" class="text-decoration-none">
                 <div class="carousel-item">
-                    <img src="{{best_selling_games.1.cover_image.url}}" class="d-block w-100" alt="...">
+                    <img src="{{random_games.1.cover_image.url}}" class="d-block w-100" alt="...">
                 </div>
             </a>
-            <a href="/game/{{best_selling_games.2.id}}" class="text-decoration-none">
+            <a href="/game/{{random_games.2.id}}" class="text-decoration-none">
                 <div class="carousel-item">
-                    <img src="{{best_selling_games.2.cover_image.url}}" class="d-block w-100" alt="...">
+                    <img src="{{random_games.2.cover_image.url}}" class="d-block w-100" alt="...">
                 </div>
         </div>
         </a>
@@ -70,77 +42,86 @@
         </button>
     </div>
 </div>
+<div class="container p-3" id="promocoes">
+    <h1 class = "pb-3 category-title">Promoções</h1>
+    <div class="row">
+        {% for game in games_on_sale %}
+            <div class="col-md-3 mb-3 ">
+                <a href="/game/{{game.id}}" class="text-decoration-none">
+                    <div class="card game-card">
+                        <img src="{{game.cover_image.url}}" class="card-img-top" alt="Imagem 1" />
+                        <div class="card-body">
+                            <h5 class="card-title text-truncate">{{game.title}}</h5>
+                            {% if game.promotion > 0 %}
+                                <del class="text-muted mr-2">R$ {{ game.price }}</del>
+                                <span class="text-danger h6">R$ {{ game.price_with_discount }}</span>
+                            <p class="card-text">
+                                <small class="text-muted ">{{game.promotion}}% de desconto!</small>
+                            </p>
+                            {% else %}
+                                <p class="card-text">R$ {{game.price}}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
 <div class="container p-3" id="lancamentos">
     <h1 class = "pb-3 category-title">Lançamentos</h1>
     <div class="row">
-        {% for latest_game in latest_games %}
-        <div class="col-md-3 mb-3">
-            <a href="/game/{{latest_game.id}}" class="text-decoration-none">
-                <div class="card game-card">
-                    <img src="{{latest_game.cover_image.url}}" class="card-img-top" alt="Imagem 1" />
-                    <div class="card-body">
-                        <h5 class="card-title text-truncate">{{latest_game.title}}</h5>
-                        <p class="card-text">R$ {{latest_game.price_with_discount}}</p>
-                        {% if latest_game.promotion > 0 %}
-                        <p class="card-text">
-                            <small class="text-muted">{{latest_game.promotion}}% de desconto!</small>
-                        </p>
-                        {% endif %}
+        {% for game in latest_games %}
+            <div class="col-md-3 mb-3">
+                <a href="/game/{{game.id}}" class="text-decoration-none">
+                    <div class="card game-card">
+                        <img src="{{game.cover_image.url}}" class="card-img-top" alt="Imagem 1" />
+                        <div class="card-body">
+                            <h5 class="card-title text-truncate">{{game.title}}</h5>
+                            {% if game.promotion > 0 %}
+                                <del class="text-muted mr-2">R$ {{ game.price }}</del>
+                                <span class="text-danger h6">R$ {{ game.price_with_discount }}</span>
+                            <p class="card-text">
+                                <small class="text-muted ">{{game.promotion}}% de desconto!</small>
+                            </p>
+                            {% else %}
+                                <p class="card-text">R$ {{game.price}}</p>
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
-            </a>
-        </div>
-
+                </a>
+            </div>
         {% endfor %}
     </div>
 </div>
 <div class="container p-3" id="populares">
     <h1 class = "pb-3 category-title">Populares</h1>
     <div class="row">
-        {% for best_selling_game in best_selling_games %}
-        <div class="col-md-3 mb-3">
-            <a href="/game/{{best_selling_game.id}}" class="text-decoration-none">
-                <div class="card game-card">
-                    <img src="{{best_selling_game.cover_image.url}}" class="card-img-top" alt="Imagem 1" />
-                    <div class="card-body">
-                        <h5 class="card-title text-truncate">{{best_selling_game.title}}</h5>
-                        <p class="card-text">R$ {{best_selling_game.price_with_discount}}</p>
-                        {% if best_selling_game.promotion > 0 %}
-                        <p class="card-text">
-                            <small class="text-muted">{{best_selling_game.promotion}}% de desconto!</small>
-                        </p>
-                        {% endif %}
+        {% for game in best_selling_games %}
+            <div class="col-md-3 mb-3">
+                <a href="/game/{{game.id}}" class="text-decoration-none">
+                    <div class="card game-card">
+                        <img src="{{game.cover_image.url}}" class="card-img-top" alt="Imagem 1" />
+                        <div class="card-body">
+                            <h5 class="card-title text-truncate">{{game.title}}</h5>
+                            {% if game.promotion > 0 %}
+                                <del class="text-muted mr-2">R$ {{ game.price }}</del>
+                                <span class="text-danger h6">R$ {{ game.price_with_discount }}</span>
+                            <p class="card-text">
+                                <small class="text-muted ">{{game.promotion}}% de desconto!</small>
+                            </p>
+                            {% else %}
+                                <p class="card-text">R$ {{game.price}}</p>
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
-            </a>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-<div class="container p-3" id="promocoes">
-    <h1 class = "pb-3 category-title">Promoções</h1>
-    <div class="row">
-        {% for game_on_sale in games_on_sale %}
-        <div class="col-md-3 mb-3">
-            <a href="/game/{{game_on_sale.id}}" class="text-decoration-none">
-                <div class="card game-card">
-                    <img src="{{game_on_sale.cover_image.url}}" class="card-img-top" alt="Imagem 1" />
-                    <div class="card-body">
-                        <h5 class="card-title text-truncate">{{game_on_sale.title}}</h5>
-                        <p class="card-text">R$ {{game_on_sale.price_with_discount}}</p>
-                        {% if game_on_sale.promotion > 0 %}
-                        <p class="card-text">
-                            <small class="text-muted">{{game_on_sale.promotion}}% de desconto!</small>
-                        </p>
-                        {% endif %}
-                    </div>
-                </div>
-            </a>
-        </div>
+                </a>
+            </div>
         {% endfor %}
     </div>
 </div>
 
-{% endif %}
+
 
 {% endblock %}

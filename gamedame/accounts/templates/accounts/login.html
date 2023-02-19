@@ -8,13 +8,10 @@
     <div class = "d-flex justify-content-center align-items-center">
         <div class = "auth-card">
             <div class = "card-body">
-                <h4 class = "card-title text-center mb-3">
-                    Entrar
-                </h4>
+                <h4 class = "card-title text-center mb-3">Entrar</h4>
                 <form method="post">
                     {% csrf_token %}
                     <input type="hidden" name = "next" value = "{{next}}">
-
                     {{ form|crispy}}
                     <button type="submit" class= "btn btn-primary btn-block">Entrar</button>
                 </form>

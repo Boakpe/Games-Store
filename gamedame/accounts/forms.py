@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
 class CustomUserCreationForm(UserCreationForm):
@@ -11,16 +11,6 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2')
 
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['username'].label = 'Nome de usuário'
-        self.fields['email'].label = 'Endereço de email'
-        self.fields['first_name'].label = 'Nome'
-        self.fields['last_name'].label = 'Sobrenome'
-        self.fields['password1'].label = 'Senha'
-        self.fields['password2'].label = 'Confirmação da senha'
-        
         labels = {
             'username': 'Nome de usuário',
             'email': 'Endereço de email',
@@ -38,3 +28,14 @@ class CustomUserCreationForm(UserCreationForm):
             'password1': 'Sua senha não pode ser muito parecida com suas outras informações pessoais.',
             'password2': 'Digite a mesma senha novamente para verificação.'
         }
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(
+        label="Nome de usuário",
+        widget=forms.TextInput(attrs={'autofocus': True, 'class': 'form-control'})
+    )
+    password = forms.CharField(
+        label="Senha",
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'class': 'form-control'}),
+    )
