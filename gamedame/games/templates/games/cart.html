@@ -12,7 +12,7 @@
           <div class="card-body">
             <h5 class="card-title text-truncate">{{game.game.title}}</h5>
             <p class="card-text">R$ {{game.game.price_with_discount}}</p>
-            <a class="btn btn-outline-danger btn-sm mt-2" href="{% url 'remove_cart_item' cart_item.pk %}">Remover</a>
+            <a class="btn btn-outline-danger btn-sm mt-2" href="{% url 'remove_cart_item' game.pk %}">Remover</a>
           </div>
         </div>
       </a>

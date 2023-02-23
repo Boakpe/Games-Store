@@ -43,11 +43,7 @@ def registerUserView(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            return redirect('accounts/login')
+            return redirect('login')
     else:
         form = CustomUserCreationForm()
     return render(request, 'accounts/register.html', {'form': form})
